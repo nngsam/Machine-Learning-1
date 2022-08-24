@@ -1,0 +1,266 @@
+\documentclass{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{vntex}
+\usepackage{amsmath,amssymb}
+\usepackage{parskip}
+\usepackage{graphicx}
+
+% Margins
+\usepackage[top=2.5cm, left=3cm, right=3cm, bottom=4.0cm]{geometry}
+% Colour table cells
+\usepackage[table]{xcolor}
+
+% Get larger line spacing in table
+\newcommand{\tablespace}{\\[1.25mm]}
+\newcommand\Tstrut{\rule{0pt}{2.6ex}}         % = `top' strut
+\newcommand\tstrut{\rule{0pt}{2.0ex}}         % = `top' strut
+\newcommand\Bstrut{\rule[-0.9ex]{0pt}{0pt}}   % = `bottom' strut
+
+%%%%%%%%%%%%%%%%%
+%     Title     %
+%%%%%%%%%%%%%%%%%
+
+\title{Machine Learning 1 - Week 2 }
+\author{Nguyễn Thị Kiều Nhung - 11203041}
+\date{August 24, 2022}
+\begin{document}
+\maketitle
+
+%%%%%%%%%%%%%%%%%
+%   Problem 1   %
+%%%%%%%%%%%%%%%%%
+\section*{Problem 1. Prove}
+
+%%%%%%%%%%%%%%%%%
+%   section a   %
+%%%%%%%%%%%%%%%%%
+
+\subsection*{(a)  Gaussian distribution is normalized }
+
+
+To prove  the Gaussian distribution is normalized, I will first show that it is normalized for a zero-mean Gaussian and extend that result to show that $\mathcal{N}$($x$$\mid$$\mu$, $\sigma$$^{2}$) is normalized.		
+
+The pdf of the zero-mean Gaussian distribution is given by:
+%\vraphi%
+\begin{align}	
+\mathcal{N}(x|\mu = 1, \sigma^2)= \frac{1}{\sqrt{2\pi\sigma^2}}\, \exp\left(-\frac{1}{2\sigma^2}x^2\right)\,\,\,\,\,\,\,-\infty < x < \infty.			
+\end{align}
+To prove that the above expression is normalized, we have to show that \\
+$$
+\frac{1}{\sqrt{2\pi\sigma^2}}\int_{-\infty}^{\infty}\exp\left(-\frac{1}{2\sigma^2}x^2\right)dx = 1
+$$
+Or
+\begin{align}
+\int_{-\infty}^{\infty} \exp\left(-\frac{1}{2\sigma^2}x^2\right)dx = \sqrt{2\pi\sigma^2}
+\end{align}
+
+Let
+\begin{align}
+I = \int_{-\infty}^{\infty} \exp\left(-\frac{1}{2\sigma^2}x^2\right)dx
+\end{align}
+
+Squaring the above expression,
+\begin{align}
+I^2 = \int_{-\infty}^{\infty}\int_{-\infty}^{\infty} \exp\left(-\frac{1}{2\sigma^2}x^2-\frac{1}{2\sigma^2}y^2\right)dx\,dy
+\end{align}
+To integrate this expression we make the transformation from  (x, y) coordinates to (r, $\theta$) coordinates, which is defined by
+\begin{align}
+x = r \, cos\,\theta\\
+y = r \, sin\, \theta
+\end{align}
+We also have:
+$$
+dx\,dy = \begin{vmatrix}\dfrac{\partial \left(x, y\right)}{\partial \left(r, \theta\right)}\end{vmatrix}dr\,d\theta
+$$
+and using the trigonometric identity $cos^2\,\theta + sin^2\, \theta = 1$, we have $x^2 + y^2 = r^2$. Also the Jacobian of the change of variables is given by,
+\begin{align*}
+ \,\,&= \,\,\,\begin{vmatrix}
+&\dfrac{\partial \left(x \right)}{\partial \left(r \right)} &\dfrac{\partial \left(x \right)}{\partial \left(\theta \right)}&\\
+\\
+&\dfrac{\partial \left(y \right)}{\partial \left(r \right)} &\dfrac{\partial \left(y \right)}{\partial \left(\theta \right)}&
+\end{vmatrix}\\
+\\
+&= \,\,\,
+\begin{vmatrix}
+&cos \,\theta &-r\,sin \, \theta&
+\\
+&sin \,\theta &r\,cos\,\theta&
+\end{vmatrix}\\
+&=\,\,\, r\, cos^2\,\theta + r\, sin^2\,\theta
+\\
+&=\,\,\, r
+\end{align*}
+using the same trigonometric identity $cos^2\,\theta + sin^2\, \theta = 1$.
+So, 
+\begin{align}
+I^2 \,\,&=\,\,\, \int_{0}^{2\pi}\int_{0}^{\infty} \exp\left(-\frac{r^2}{2\sigma^2}\right) r\,dr\,d\theta 
+\\
+&= \,\,\,2\pi\int_{0}^{\infty} \exp\left(-\frac{r^2}{2\sigma^2}\right) r\,dr
+\\
+&= \,\,\,2\pi\int_{0}^{\infty} \exp\left(-\frac{u}{2\sigma^2}\right) \frac{1}{2}\,du
+\\
+&=\,\,\,\pi\left[\exp\left(-\frac{u}{2\sigma^2}\right)\,\left(-2\sigma^2\right)\right]_0^\infty
+\\
+&=\,\,\,2\pi\sigma^2
+\end{align}
+where from (8) to (9), we have used the change of variables $r^2 = u$.
+Thus $$I = \left(2\pi\sigma^2\right)^{1/2}.$$
+
+Finally to prove that $\mathcal{N}$(x$\mid$$\mu$, $\sigma$$^{2}$) is normalized, we make the tranformation $y = x - \mu$ so that,
+\begin{align*}
+\int_{-\infty}^{\infty} \mathcal{N}(\textit{x}\mid\mu, \sigma^{2})\,dx \,\,&= \,\,\,\frac{1}{\left(2\pi\sigma^2\right)^{1/2}} \int_{-\infty}^{\infty} \exp\left(-\frac{y^2}{2\sigma^2}\right)\,dy\\
+&=\,\,\,\frac{I}{\left(2\pi\sigma^2\right)^{1/2}}\,\,\,\,\,\,\,(substitute\,\,$I$)\\
+&=\,\,\,1
+\end{align*} 
+as required.
+
+%%%%%%%%%%%%%%%%%
+%   section b   %
+%%%%%%%%%%%%%%%%%
+
+\subsection*{(b) Expectation of Gaussian distribution is $\mu$ (mean)}
+Probability Density Function:
+
+$\mathcal{N}(x|\mu, \sigma^2)= \dfrac 1 {\sigma \sqrt{2 \pi} } \map \exp\left({-\dfrac {\paren {(x - \mu)}^2} {2 \sigma^2} }\right)$
+
+From the definition of the Expectation of Continuous Random Variable: 
+
+$E(X) = \int_{-\infty}^\infty xf(x)dx$
+
+So:
+\begin{equation}
+    \begin{split}
+    E(X) &= \int_{-\infty}^\infty x\,\exp{\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)}dx \\
+    &= \frac{1}{\sigma \sqrt{2\pi}} \int_{-\infty}^\infty x \,\exp{\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)}dx \\
+    \end{split}
+\end{equation}
+
+Let $$ t &= \frac{x - \mu}{\sigma \sqrt 2} $$  
+$$\implies t^2 &= \frac{(x-\mu)^2}{2\sigma^2}$$
+$$dx &= \sqrt{2}\sigma \,dt$$ \\
+Substituting,
+$$E(X) &= \frac{1}{\sigma \sqrt{2\pi}} \int_{-\infty}^\infty (t\sigma \sqrt{2} + \mu) \exp{(-t^2)}\,dt \sqrt{2}\sigma \\$$ 
+
+$$ &= \frac{1}{\sqrt{\pi}} \Bigg[ \int_{-\infty}^\infty t\sigma\sqrt{2} \times \exp{(-t^2)}dt + \int_{-\infty}^\infty \mu \times \exp{(-t^2)}dt \Bigg] $$ 
+
+$$ &= \frac{1}{\sqrt{\pi}} \Bigg [ \sqrt{2}\sigma\int_{-\infty}^\infty t \times \exp{(-t^2)}dt + \mu\int_{-\infty}^\infty\ \exp{(-t^2)}dt \Bigg]\\
+$$
+
+$$ &= \frac{1}{\sqrt{\pi}} \Bigg(\sqrt{2}\sigma \Bigg[\frac{-1}{2}\times \exp{(-t^2)}\Bigg]_{-\infty}^\infty + \mu\sqrt{\pi} \Bigg) \\$$ \\
+$$ &= \frac{1}{\sqrt{\pi}} \Bigg(\sqrt{2}\sigma (0-0) + \mu\sqrt{\pi} \Bigg) $$
+$$ &=\frac{\sigma\sqrt{\pi}}{\sqrt{\pi}} $$
+$$ &= \mu $$
+%%%%%%%%%%%%%%%%%
+%   section c   %
+%%%%%%%%%%%%%%%%%
+
+\subsection*{(c) Variance of Gaussian distribution is $\sigma^2$ (variance)}
+By definition:
+\begin{align*}
+V(X) &= E(X^2) - [E(X)]^2  \\
+\implies &= \int_{-\intfy}^\infty x^2 f(x)\,dx - [E(X)]^2 \\
+&= \frac{1}{\sigma \sqrt{2\pi}} \int_{-\infty}^\infty x^2\exp{\Bigg(-\frac{(x-\mu)^2}{2\sigma^2}\Bigg)}dx - \mu^2 
+\end{align*}
+
+Let 
+
+$$ t &= \frac{x-mu}{\sqrt{2}\sigma} $$ \\
+$$ \implies dt &= \frac{dx}{\sqrt{2}\sigma} $$ \\
+$$ x &= \sigma t \sqrt{2} + \mu $$\\
+$$ \implies x^2 &= 2 t^2\sigma^2 +  t 2\sqrt{2}\sigma t \mu + \mu^2 $$\\
+
+Substituting, we got:
+
+$$ V(X) &= \frac{1}{\sigma\sqrt{2\pi}}\int_{-\infty}^\infty x^2 \exp{(-t^2)}dt \sqrt{2}\sigma - \mu^2 $$ \\ 
+$$ &= \Bigg[ \frac{1}{\sqrt{\pi}}\int_{-\infty}^\infty (2 t^2\sigma^2 +  t 2\sqrt{2}\sigma t \mu + \mu^2 )\exp{(-t^2)}dt \Bigg] - \mu^2 $$ \\
+$$ &= \frac{1}{\sqrt{\pi}} \Bigg[2\sigma^2\int_{-\infty}^\infty t^2\exp{(-t^2)}dt + 2\sqrt{2}\sigma\mu \int_{-\infty}^\infty t\exp{(-t^2)}dt + \mu^2\int_{-\infty}^\infty \exp{(-t^2)}dt \Bigg] - \mu^2 $$ \\
+$$  &= \frac{1}{\sqrt{\pi}} \Bigg(2\sigma^2\int_{-\infty}^\infty t^2\exp{(-t^2)}dt + 2\sqrt{2}\sigma\mu \Big[ \frac{-1}{2}\exp{(-t^2)} \Big]_{-\infty}^\infty + \mu^2\sqrt{\pi} \Bigg) - \mu^2 $$ \\
+$$ &= \frac{1}{\sqrt{\pi}} \Bigg(2\sigma^2\int_{-\infty}^\infty t^2\exp{(-t^2)}dt + 2\sqrt{2}\times 0  \Bigg) + \mu^2 - \mu^2 $$ \\
+$$ &= \frac{2\sigma^2}{\sqrt{\pi}}\int_{-\infty}^\infty t^2 \exp{(-t^2)}dt $$ \\
+Using integration ny parts:\\
+$$ u = t; \,\,\,dv = t \exp{(-t^2)}dt $$\\
+$$ du = dt;\,\,\,v = \frac{-1}{2} \exp{(-t^2)} $$
+Then,
+$$ \int_{-\infty}^\infty udv &= uv - \int vdu $$\\
+$$ &= \frac{-1}{2} t \exp{-(t^2)}} - \int_{-\infty}^\infty {\frac{-1}{2}\exp{(-t^2)}dt$$ \\
+$$ &= \Big[\frac{-t}{2} \exp{(-t^2)} \Big]_{-\infty}^\infty + \frac{1}{2}\int \exp{(-t^2)}$$ \\
+Then, 
+$$ \implies V(X) &= \frac{2\sigma^2}{\sqrt{\pi}} \times \frac{1}{2}\int_{-\infty}^\infty\exp{(-t^2)}dt $$\\
+$$ &= \frac{2\sigma^2\sqrt{\pi}}{2\sqrt{\pi}} $$\\
+$$ &= \sigma^2 $$
+
+
+%%%%%%%%%%%%%%%%%
+%   section d   %
+%%%%%%%%%%%%%%%%%
+
+\subsection*{(d) Multivariate Gaussian distribution is normalized}
+To proof that the Multivariate normal distribution is normalized, we first look at the form of the distribution:
+        $$
+            p(x\mid \mu, \sigma^2) = \frac{1}{(2\pi)^{D/2} |\Sigma| ^ {1/2}} e^{ \frac{1}{2}(x-\mu)^T \Sigma ^{-1}(x-\mu)}
+        $$
+        Where: \\ 
+        $\mu$ is a D-dimensional mean vector,\\ 
+             $\Sigma$ is a D × D covariance matrix, \\
+             $|\Sigma|$ denotes the determinant of $\Sigma$. \\
+        Quadratic form of Gaussian distribution:
+        $$
+          \Delta ^2 = ( x - \mu )^T \Sigma ^{-1} ( x - \mu )
+        $$
+        
+        $$
+           &=x^T \Sigma ^{-1} x  - x^T \Sigma ^{-1} \mu  -\mu ^T \Sigma ^{-1} x +  \mu^T \Sigma ^{-1} \mu
+        $$
+        
+        We can see that:
+        $$
+            \Big(x^T \Sigma ^{-1} \mu \Big)^T = \mu ^T (\Sigma ^{-1})^T x
+        $$
+        
+        Therefore:
+        \begin{equation}
+            \begin{split}
+                \Delta ^ 2 &= x^T \Sigma ^{-1} x  - x^T \Sigma ^{-1} \mu  -\mu ^T \Sigma ^{-1} x +  \mu^T \Sigma ^{-1} \mu \\
+                    & =  x^T \Sigma ^{-1} x - 2x^T \Sigma ^{-1} \mu + c
+            \end{split}
+        \end{equation}
+        \\
+        Next, we have the eigenvalues and eigenvectors of $\Sigma$, i = 1,...,$D$:
+        $$
+            \Sigma u_i = \lambda_i u_i
+        $$
+        Because $\Sigma$ is a real, symmetric matrix, its eigenvalues will be real and its eigenvectors form an orthogonal set.\\
+        $$\Sigma & = \sum_{n=1}^{D}\lambda_i u_i u_i^T $$ \\
+        $$
+            \implies \Sigma ^{-1} & = \sum_{n=1}^{D} \frac{1}{\lambda} u_i u_i^T
+        $$
+      
+        Next,
+        \begin{equation}
+            \begin{split}
+                \Delta ^2 = (x - \mu)^T \Sigma ^{-1} (x - \mu) & = \sum_{n=1}^{D} \frac{1}{\lambda} (x - \mu)^T u_i u_i^T (x - \mu) \\
+                & = \sum_{n=1}^{D} \frac{{y_i}^2}{\lambda_i}
+            \end{split}
+        \end{equation}\\
+
+        with $y_i = u_i^T (x - \mu)$ \\
+        We have that:
+        $$
+            p(y) = \prod_{n=1}^{D} {\frac{1}{2 \pi \lambda}}^{1/2} \exp{(-\frac{{y_j}^2}{x \lambda_j})}
+        $$ \\
+        Integrating both sides: 
+        $$
+            \int_{-\infty}^{\infty} p(y) dy = \prod_{i=1}^n \int_{-\infty}^{\infty} {\frac{1}{2 \pi \lambda}}^{1/2} \exp{(-\frac{{y_j}^2}{x \lambda_j})} d y_i
+        $$
+        but we can see that:
+        $$
+            {\frac{1}{2 \pi \lambda}}^{1/2} \exp{(-\frac{{y_j}^2}{x \lambda_j})} d y_i
+        $$
+       have the total probability = 1 (part a) \\
+        So that:
+        $$
+             \prod_{i=1}^n \int_{-\infty}^{\infty} {\frac{1}{2 \pi \lambda}}^{1/2} exp{(-\frac{{y_j}^2}{x \lambda_j})} d y_i = \prod_{i=1}^n 1 = 1
+        $$
+\end{document}
